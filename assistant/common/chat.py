@@ -237,9 +237,10 @@ class ChatHandler(MixinMeta):
                     conf=conf,
                     files=files,
                     reply=True,
+                    db=self.db
                 )
             else:
-                await send_reply(message=message, content=text, conf=conf)
+                await send_reply(message=message, content=text, conf=conf, db=self.db)
 
     async def get_chat_response(
         self,

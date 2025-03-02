@@ -97,6 +97,7 @@ class Admin(MixinMeta):
             + _("`Seed:                `{}\n").format(conf.seed)
             + _("`Vision Resolution:   `{}\n").format(conf.vision_detail)
             + _("`Reasoning Effort:    `{}\n").format(conf.reasoning_effort)
+            + _("`Attach Thoughts:      {}\n").format(self.db.attach_thoughts)
             + _("`System Prompt:       `{} tokens\n").format(humanize_number(system_tokens))
             + _("`User Prompt:         `{} tokens\n").format(humanize_number(prompt_tokens))
             + _("`Endpoint Override:   `{}\n").format(self.db.endpoint_override)
@@ -2148,4 +2149,21 @@ class Admin(MixinMeta):
             case False:
                 self.db.tool_format = False
                 await ctx.send("Assistant will now send functions via functions.")
+        await self.save_conf()
+
+    @assistant.command(name="attachthoughts")
+    @commands.is_owner()
+    async def toggle_thought_attachments(self, ctx: commands.Context, true_or_false: bool):
+        """
+        Toggle whether the assistant will attach thoughts in a text file.
+
+        Only relevant for reasoning models that have a thought output.
+        """
+        match true_or_false:
+            case True:
+                self.db.attach_thoughts = True
+                await ctx.send("Assistant will attach thoughts as a text file.")
+            case False:
+                self.db.attach_thoughts = False
+                await ctx.send("Assistant will stop attaching thoughts as a text file.")
         await self.save_conf()

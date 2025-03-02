@@ -21,6 +21,7 @@ async def send_reply(
     conf: GuildSettings,
     files: Optional[List[discord.File]] = None,
     reply: bool = False,
+    db: Optional[Any] = None,
 ):
     """Intelligently send a reply to a message
 
@@ -36,7 +37,8 @@ async def send_reply(
             if not think_content:
                 think_content += "no thinkies 🤯"
             filename = "thinkies.txt" if idx == 0 else f"thinkies_part{idx + 1}.txt"
-            files.append(text_to_file(think_content, filename=filename))
+            if db.attach_thoughts:
+                files.append(text_to_file(think_content, filename=filename))
         content = THINK_BLOCK.sub("", content).strip()
 
     channel_perms = message.channel.permissions_for(message.guild.me)

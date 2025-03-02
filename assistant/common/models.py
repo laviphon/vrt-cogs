@@ -346,6 +346,7 @@ class DB(AssistantBaseModel):
     brave_api_key: t.Optional[str] = None
     endpoint_override: t.Optional[str] = None
     tool_format: t.Optional[bool] = False
+    attach_thoughts: t.Optional[bool] = True
 
     def get_conf(self, guild: t.Union[discord.Guild, int]) -> GuildSettings:
         gid = guild if isinstance(guild, int) else guild.id
