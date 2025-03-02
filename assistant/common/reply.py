@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import List, Optional
+from typing import List, Optional, Any
 
 import discord
 from redbot.core.i18n import Translator
